@@ -21,6 +21,9 @@ description:         Please see the README on GitHub at <https://github.com/Main
 
 dependencies:
 - base >= 4.7 && < 5
+- servant-server
+- wai
+- warp
 
 library:
   source-dirs: src
@@ -47,3 +50,4 @@ tests:
     dependencies:
     - priority
     - hspec
+    - hspec-wai
