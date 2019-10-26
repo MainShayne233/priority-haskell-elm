@@ -1,2 +1,9 @@
+import Lib ( someFunc )
+import Test.Hspec
+
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main =
+  hspec $ do
+    describe "someFunc" $ do
+      it "should return " $ do
+        someFunc `shouldBe` "someFunc"
