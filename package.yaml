@@ -26,6 +26,9 @@ dependencies:
 - wai
 - warp
 - wai-make-assets
+- servant-elm
+- elm-bridge
+- servant
 
 library:
   source-dirs:

@@ -1,7 +1,8 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, button, div, h1, img, p, text)
+import GeneratedApi exposing (Priority, getPriorities)
+import Html exposing (Html, button, div, h1, img, li, p, text)
 import Html.Attributes exposing (src)
 import Html.Events exposing (onClick)
 
@@ -11,12 +12,21 @@ import Html.Events exposing (onClick)
 
 
 type alias Model =
-    { count : Int }
+    { priorities : List Priority }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { count = 0 }, Cmd.none )
+    ( { priorities = [] }, getPriorities initPriorities )
+
+
+initPriorities result =
+    case result of
+        Ok priorities ->
+            SetPriorities priorities
+
+        Err _ ->
+            NoOp
 
 
 
@@ -24,19 +34,15 @@ init =
 
 
 type Msg
-    = Increment
-    | Decrement
+    = SetPriorities (List Priority)
     | NoOp
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Increment ->
-            ( Model (model.count + 1), Cmd.none )
-
-        Decrement ->
-            ( Model (model.count - 1), Cmd.none )
+        SetPriorities priorities ->
+            ( Model priorities, Cmd.none )
 
         NoOp ->
             ( model, Cmd.none )
@@ -49,13 +55,18 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ h1 [] [ text "Hello, Elm!" ]
+        [ h1 [] [ text "Hello, Priorities!" ]
         , div []
-            [ button [ onClick Increment ] [ text "+" ]
-            , button [ onClick Decrement ] [ text "-" ]
-            , p [] [ text (String.fromInt model.count) ]
-            ]
+            (List.map
+                renderPriority
+                model.priorities
+            )
         ]
+
+
+renderPriority : Priority -> Html Msg
+renderPriority priority =
+    li [] [ text (priority.name ++ " - " ++ String.fromInt priority.priorityLevel) ]
 
 
 

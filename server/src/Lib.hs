@@ -8,32 +8,21 @@ module Lib
   )
 where
 
-import           Data.Aeson
-import           Data.Aeson.TH
 import           Data.Proxy
 import           Network.Wai
 import           Network.Wai.Handler.Warp
 import           Network.Wai.MakeAssets
 import           Servant
 import           System.IO
+import qualified Elm.Derive
 
-data Priority = Priority {
-  id :: Int,
-  name :: String,
-  priorityLevel :: Int
-} deriving (Eq, Show)
 
-$(deriveJSON defaultOptions ''Priority)
-
-type API = "priorities" :> Get '[JSON] [Priority]
+import           Api
 
 type WithAssets = API :<|> Raw
 
 withAssets :: Proxy WithAssets
 withAssets = Proxy
-
-api :: Proxy API
-api = Proxy
 
 options :: Network.Wai.MakeAssets.Options
 options = Network.Wai.MakeAssets.Options "client"
