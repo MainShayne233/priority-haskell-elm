@@ -25,6 +25,7 @@ dependencies:
 - servant-server
 - wai
 - warp
+- wai-make-assets
 
 library:
   source-dirs:
